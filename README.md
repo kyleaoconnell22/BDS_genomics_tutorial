@@ -186,12 +186,12 @@ All resources we download will come from the [GATK Resource Bundle](https://cons
 
 `curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dict -output reference/Homo_sapiens_assembly38.dict`  
 `curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta -output reference/Homo_sapiens_assembly38.fasta`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.alt -output reference/Homo_sapiens_assembly38.fasta.alt`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.amb -output reference/Homo_sapiens_assembly38.fasta.amb`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.ann -output reference/Homo_sapiens_assembly38.fasta.ann`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.bwt -output reference/Homo_sapiens_assembly38.fasta.bwt`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.pac -output reference/Homo_sapiens_assembly38.fasta.pac`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.sa -output reference/Homo_sapiens_assembly38.fasta.sa`  
+`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.alt -output reference/Homo_sapiens_assembly38.fasta.64.alt`  
+`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.amb -output reference/Homo_sapiens_assembly38.fasta.64.amb`  
+`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.ann -output reference/Homo_sapiens_assembly38.fasta.64.ann`  
+`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.bwt -output reference/Homo_sapiens_assembly38.fasta.64.bwt`  
+`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.pac -output reference/Homo_sapiens_assembly38.fasta.64.pac`  
+`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.sa -output reference/Homo_sapiens_assembly38.fasta.64.sa`  
 `curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.fai -output reference/Homo_sapiens_assembly38.fasta.fai`  
 
 From GCP bucket:  
