@@ -269,7 +269,7 @@ Make sure you download all the files and set up the directory structure first! I
 You could run the whole pipeline by running the python script like this:  
 `python3 scripts/execute_mapping.py input reference/Homo_sapiens_assembly38.fasta --path_to_resources resources --variant_caller haplotypecaller --filter_vcf VQSR --threads 4`
 
-Or, you can run the commands individually like this:
+But, in this tutorial we are going to run the commands individually so that you can get a feel for what is happening at each step:
 
 #### Assign global variables
 `RESULTS='results/HG00096'`  
