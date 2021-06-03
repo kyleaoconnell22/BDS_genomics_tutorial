@@ -278,8 +278,7 @@ But, in this tutorial we are going to run the commands individually so that you 
 `EXOUT='output_examples'`  
 
 #### BWA mem  
-`bwa mem -t 2 -R \
-'@RG\tID:HFHJKDSXX.L004\tLB:lib1\tPL:LLUMINA\tPU:HFHJKDSXX.L004.CGGACAAC_TCCGGATT\tSM:HG00096' reference/Homo_sapiens_assembly38.fasta input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R1.fastq.gz input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R2.fastq.gz > $RESULTS/out.sam`
+`bwa mem -t 2 -R '@RG\tID:HFHJKDSXX.L004\tLB:lib1\tPL:LLUMINA\tPU:HFHJKDSXX.L004.CGGACAAC_TCCGGATT\tSM:HG00096' reference/Homo_sapiens_assembly38.fasta input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R1.fastq.gz input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R2.fastq.gz > $RESULTS/out.sam`
 
 ### View the Samfile, note the chromosome order  
 `samtools view $RESULTS/out.sam | head -20`
