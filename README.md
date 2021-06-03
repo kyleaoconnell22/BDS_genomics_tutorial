@@ -182,7 +182,7 @@ And then move the input data to the correct place
 `mv input.fastq.zip input/HG0096 | unzip input/HG00096/input.fastq.zip`
 
 
-All resources we download will come from the [GATK Resource Bundle](https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0;tab=objects?prefix=&forceOnObjectsSortingFiltering=false). 
+All resources we download will come from the [GATK Resource Bundle](https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0;tab=objects?prefix=&forceOnObjectsSortingFiltering=false). We are going to just download one resource today for the tutorial, but in the full pipeline we end up using all of these. 
 
 `curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dict -output reference/Homo_sapiens_assembly38.dict`  
 `curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta -output reference/Homo_sapiens_assembly38.fasta`  
@@ -210,54 +210,16 @@ From GCP bucket:
 ### *Download Resources*
 
 From URL:  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/1000G.phase3.integrated.sites_only.no_MATCHED_REV.hg38.vcf -o resources/1000G.phase3.integrated.sites_only.no_MATCHED_REV.hg38.vcf`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/1000G.phase3.integrated.sites_only.no_MATCHED_REV.hg38.vcf.idx -o resources/1000G.phase3.integrated.sites_only.no_MATCHED_REV.hg38.vcf.idx`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/1000G_omni2.5.hg38.vcf.gz -o resources/1000G_omni2.5.hg38.vcf.gz`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/1000G_omni2.5.hg38.vcf.gz.tbi -o resources/1000G_omni2.5.hg38.vcf.gz.tbi`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/1000G_phase1.snps.high_confidence.hg38.vcf.gz -o resources/1000G_phase1.snps.high_confidence.hg38.vcf.gz`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi -o resources/1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz -o resources/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz.tbi -o resources/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz.tbi`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf -o resources/Homo_sapiens_assembly38.dbsnp138.vcf`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf.idx -o resources/Homo_sapiens_assembly38.dbsnp138.vcf.idx`  
+
 `curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz -o resources/Homo_sapiens_assembly38.known_indels.vcf.gz`  
 `curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi -o resources/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz -o resources/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi -o resources/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/hapmap_3.3.hg38.vcf.gz -o resources/hapmap_3.3.hg38.vcf.gz`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/hapmap_3.3.hg38.vcf.gz.tbi -o resources/hapmap_3.3.hg38.vcf.gz.tbi`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/scattered_calling_intervals/ -o resources/scattered_calling_intervals`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/wgs_calling_regions.hg38.interval_list -o resources/wgs_calling_regions.hg38.interval_list`  
 
 From GCP bucket:  
 `gsutil -m cp -r   
-  "gs://genomics-public-data/resources/broad/hg38/v0/1000G.phase3.integrated.sites_only.no_MATCHED_REV.hg38.vcf"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/1000G.phase3.integrated.sites_only.no_MATCHED_REV.hg38.vcf.idx"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/1000G_omni2.5.hg38.vcf.gz"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/1000G_omni2.5.hg38.vcf.gz.tbi"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/1000G_phase1.snps.high_confidence.hg38.vcf.gz"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz.tbi"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf.idx"  
+  
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/hapmap_3.3.hg38.vcf.gz"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/hapmap_3.3.hg38.vcf.gz.tbi"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/scattered_calling_intervals/"  
-  "gs://genomics-public-data/resources/broad/hg38/v0/wgs_calling_regions.hg38.interval_list"  
-  resources`  
+  "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi"   
 
- ### *Download Example Output from BDS Project Bucket*  
-From URL:  
-`curl https://storage.cloud.google.com/bds-genomics-test-bucket/output_examples/HG00096_deepvariant.visual_report_example.html -o output_examples/HG00096_deepvariant.visual_report_example.html`  
-`curl https://storage.cloud.google.com/bds-genomics-test-bucket/output_examples/snps.recal -o output_examples/snps.recal`  
-`curl https://storage.cloud.google.com/bds-genomics-test-bucket/output_examples/snps.recal.idx -o output_examples/snps.recal.idx`  
-`curl https://storage.cloud.google.com/bds-genomics-test-bucket/output_examples/snps.tranches -o output_examples/snps.tranches`  
-`curl https://storage.cloud.google.com/bds-genomics-test-bucket/output_examples/HG00096_haplotypecaller.vcf -o output_examples/HG00096_haplotypecaller.vcf`   
 
 ## **Tutorial** <a name="TUT"></a>
 
