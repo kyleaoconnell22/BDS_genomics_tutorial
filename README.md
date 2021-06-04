@@ -111,7 +111,7 @@ The workflow is run by the script execute_mapping.py which can be run locally, o
 
 ## **Workflow Steps** <a name="WFS"></a>
 
-![Workflow](https://github.com/dportik/dadi_pipeline/blob/master/Example_Data/NoMig_Zoom.png)
+![Workflow](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/Genome_alignment_workflow.pdf)
 
 
 ### **BWA mem**
