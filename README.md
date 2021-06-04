@@ -111,10 +111,10 @@ The workflow is run by the script execute_mapping.py which can be run locally, o
 
 ## **Workflow Steps** <a name="WFS"></a>
 
-![WorkflowHC](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/Genome_alignment_workflow_HC.png)
-![WorkflowDV](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/Genome_alignment_workflow_DV.png)
-
 ### **BWA mem**
+
+![WorkflowHC](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/Genome_alignment_workflow_HC2.png)
+![WorkflowDV](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/Genome_alignment_workflow_DV2.png)
 
 Align filtered fastq files to a reference genome. The script is designed to move through several subjects, and each subject can have multiple fastq file pairs. For example, if you have the directory 'input', it could contain subject1, subject2, and subject3, and each of these could have fastq1.R1.fastq (forward reads), fastq1.R2.fastq (reverse reads) and then fastq2.R1.fastq, fastq2.R2.fastq etc. (The reason there may be multiple fastq files for each subject (in this case person) is that deep sequencing (30-50x or more) may require more sequencing than any one machine can output. Another issues is that PCR-free libraries require several libraries to be prepared for each subject to have enough DNA to sequence deeply. Spreading the sequence across a few libraries and a few sequencing machines also distributes error (mainly levels of duplication) more widely, and should give better sequence quality overall).
 
@@ -140,26 +140,27 @@ Also note that optical duplicates are only an issue with Illumina 2500 machines,
 At this point in the script, things change depending on if you are using GATK haplotypecaller or Google deepvariant. If haplotypecaller, then you will conduct base quality score recalibration, then variant calling and variant filtering. If deepvariant, then you first index your bam file then call variants directly after MarkDuplicates with no additional filtering.
 
 ### **Base Quality Score Recalibration**
-For a really good explanation of what is happening here, go read the [Broad Institute description](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR-) . In a nutshell, sequencing machines assign quality scores to how confident the machine is about the identity of a given base. These estimates have systematic error, and GATK applies a machine learning model to try to correct for some of this error. 
+For a really good explanation of what is happening here, go read the [Broad Institute description](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR-) . In a nutshell, sequencing machines assign quality scores to how confident the machine is about the identity of a given base, and you can see this score if you do `head in.fastq`. These estimates have some level of inherent systematic error, and GATK applies a machine learning model they developed to try to correct for some of this error. 
 
 There are two commands used to do this, gatk BaseRecalibrator and gatk ApplyBQSR. BaseRecalibrator builds a model for the 'corrected' scores, and ApplyBQSR modifies the BAM file according to these adjusted scores. Note that this part of the pipeline also uses the read group tags, and models quality scores for each read group separately.
 
 ### **Call germline variants**
 
-Germline variants are those that are inherited through the germline (sperm and egg). Somatic variants are those that arise in an individual (e.g. cancer-associated variants) that are not passed on to the next generation. Somatic variant calling is a whole different pipeline that we will not discuss further here. 
+Germline variants are those that are inherited through the germline (sperm and egg). Somatic variants are those that arise in an individual (e.g. cancer-associated variants) that are not passed on to the next generation. Somatic variant calling is a whole different pipeline which we will not talk about further here. But, if you are interested in how it works, Kyle or Collin would be happy to discuss further! 
 
 ### **GATK haplotypecaller**
-Haplotypecaller is a germline snp (single nucleotide polymorphism) and indel (insertion/deletion) caller. It works by comparing the BAM file to the reference genome. Anywhere it identifies variation, it reassembles (think realign) the sequence for that region and then calls variants where the subject BAM differs from the reference sequence. This difference could be one bp (SNP) or several bp missing from the reference (insertion) or missing from the subject (deletion).  
+Haplotypecaller is a germline snp (single nucleotide polymorphism) and indel (insertion/deletion) caller. It works by comparing the BAM file to the reference genome. Anywhere it identifies variation, it reassembles (think realign) the sequence for that region and then calls variants where the subject BAM differs from the reference sequence. This difference could be one basepair (SNP) or several basepairs missing from the reference (insertion) or missing from the subject (deletion).  
 At this point, we expect about 3M variants for a deeply-sequenced human genome. There may be many more though due to false positives. This step has high sensitivity (most true variants included), but low specificity (lots of false positives included too).  
 
-### ***GATK Variant Call Score Recalibration***
+### ***GATK Variant Quality Score Recalibration***
 Similar to BQSR, here we are applying a machine learning model to filter variants, but instead of using an existing model built from known patterns from general Illumina runs (BQSR), this step builds a new model based on paramaters modeled from example data that you feed the program. For example, if you have known sites from existing human genome projects, VQSR builds a model that describes these sites, then rescores your variants based on how well they match the parameter space of the known data the model was built from.  
 Similar to BQSR above, this analysis has two steps, VariantRecalibrator, which builds the model, and 
-Apply VQSR, which rescores your VCF file according to the model. Note that it changes the Pass/Fail flag from Pass to LowVQSLOD (low score), so the number of variants in the VCF file does not change, and these have to be hard filtered at the very end of any pipeline. 
+Apply VQSR, which rescores your VCF file according to the model. Note that it changes the Pass/Fail flag from Pass to LowVQSLOD (low score), and these can be filtered out by the program or left for later hard-filtering.
+Further, the program generates scores based on tranches (think bins) of varying sensitivity (trying to discover all true variants) and specificity (limit false positives). A lower tranche value of 90.0 means that you are filtering more stringently, such that fewer false positives get through, but you may lose some real variants. Likewise, a loose filter of 99.0 would allow in most variants, including real and false positives. This tradeoff is context dependent.
 For a more detailed description, go to the [GATK man page](https://gatk.broadinstitute.org/hc/en-us/articles/360035531612-Variant-Quality-Score-Recalibration-VQSR-)
 
 ### ***DeepVariant***
-DeepVariant uses a CNN-based program that produces pileup image tensors from each BAM file, then classifies each tensor using the CNN model, and finally calls variants from the pileups. 
+DeepVariant uses a CNN-based program that produces pileup image tensors from each BAM file, then classifies each tensor using the CNN model, and finally calls variants from the pileups. DeepVariant has three stages, make examples, call variants, and postprocess variants. 
 
 This Google [blog post](https://google.github.io/deepvariant/posts/2020-02-20-looking-through-deepvariants-eyes/) does a great job of explaining the method in more detail.  Although no additional machine learning filtering is needed as with haplotypecaller, there will be a lot of low quality variants in the deepvariant VCF that need to be hard filtered.
 
@@ -168,7 +169,7 @@ This Google [blog post](https://google.github.io/deepvariant/posts/2020-02-20-lo
 ### ***Download Repository and CD to base dir***
 `git clone https://github.com/Deloitte/genomics_tutorial.git`  
 `cd genomics_tutorial-main`  
-For those in a hurry, all directories and files can be setup and downloaded with the helper script. Otherwise, you can go the long route and do everything step by step below. 
+For the fastest setup, all directories and files can be setup and downloaded with the helper script. Otherwise, you can go the long route and do everything step by step below. 
 
 `sh scripts/setup_tutorial.sh`
 
@@ -182,7 +183,7 @@ But first, set up directory structure if you are taking the long route
 
 And then move the input data to the correct place
 
-`mv input.fastq.zip input/HG0096 | unzip input/HG00096/input.fastq.zip`
+`unzip input.fastq.zip | mv *.gz input/HG00096`
 
 
 All resources we download will come from the [GATK Resource Bundle](https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0;tab=objects?prefix=&forceOnObjectsSortingFiltering=false). We are going to just download one resource today for the tutorial, but in the full pipeline we end up using all of these. 
