@@ -1,4 +1,4 @@
-# Perform whole genome alignment and variant calling
+# Perform whole genome alignment and germline variant calling
 
 ---------------------------------
 ## Overview of Page Contents
