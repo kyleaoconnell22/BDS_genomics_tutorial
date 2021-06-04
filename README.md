@@ -14,6 +14,11 @@
 + [License](#LIC)
 + [Contacts](#CON)
 
+## **Background** <a name="BA"></a>
+Deloitte's Biomedical Data Science (BDS) genomics team aims to benchmark the most commonly run genomic variant callers with cloud-based CPU and GPU implementations. Variant calling is the process of identifying differences between the genome of a certain individual and a reference. These individual-level variants are the foundation of genomic analyses ranging from drug development to ancestry to viral evolution. Traditionally, variant calling pipelines are computationally expensive to run and can create bottlenecks in genomic data generation. Two innovations are helping to speed up analyses and we are leveraging both of these in our benchmarking efforts. The first if the introduction of ML and deep learning into genomics. While the pipeline GATK uses ML for various filtering steps, the real innovation has been with Google’s DeepVariant pipeline which uses deep learning to call variants and basically reduces run times by a third with similar or better accuracy to the statistical variant caller. Second, NIVIDIA has integrated commonly used pipelines with GPUs, which brings the runtime of a 30x genome down from ~24 hours to about 45 minutes. Although DeepVariant can natively run on a single GPU, NVIDIA parabricks distributes analyses throughout the pipeline across mult-GPUs, which speeds things up considerably. In this tutorial we run through our variant calling pipeline locally so that participants can understand what is going on under the hood at each step. At the end of this readme you can find instructions on how it can be implemented on GCP with CPUs. 
+
+If you are participating in the Hackathon on June 25th, please read through all the introductory sections and download/install data and programs following the instructions. We will start with the Tutorial section. 
+
 ## **Purpose** <a name="P"></a>
 
 This workflow is designed to benchmark genomic applications on cloud platforms. This example is run on GCP with CPUs, but for the tutorial we will run everything locally. This tools requires Python 3. You can check your python version by typing (in the terminal) python --version
