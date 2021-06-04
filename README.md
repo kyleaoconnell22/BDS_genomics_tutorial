@@ -233,13 +233,13 @@ You could run the whole pipeline by running the python script like this:
 
 But, in this tutorial we are going to run the commands individually so that you can get a feel for what is happening at each step:
 
-#### Assign global variables
+### Assign global variables
 `RESULTS='results/HG00096'`  
 `RESOURCES='resources'`  
 `REF='reference/Homo_sapiens_assembly38.fasta'`  
 `EXOUT='output_examples'`  
 
-#### BWA mem  
+### Map fastq files to reference genome with BWA mem to produce a SAM file with mapping info
 `bwa mem -t 2 -R '@RG\tID:HFHJKDSXX.L004\tLB:lib1\tPL:LLUMINA\tPU:HFHJKDSXX.L004.CGGACAAC_TCCGGATT\tSM:HG00096' reference/Homo_sapiens_assembly38.fasta input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R1.fastq.gz input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R2.fastq.gz > $RESULTS/out.sam`
 
 ### View the Samfile, note the chromosome order  
@@ -248,7 +248,7 @@ But, in this tutorial we are going to run the commands individually so that you 
 ### SortSam and convert to BAM  
 `gatk SortSam -I $RESULTS/out.sam -O $RESULTS/HG00096.bam -SO coordinate`
 
-### View sorted SAM, note chromosome order now  
+### View sorted BAM (binary SAM), note chromosome order now  
 `samtools view $RESULTS/HG00096.bam | head -20`
 
 ### Mark Duplicates  
