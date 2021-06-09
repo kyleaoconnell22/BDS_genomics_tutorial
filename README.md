@@ -332,6 +332,9 @@ This runs three steps, the longest of which is training (23 min on my local mach
 Open and explore the [deepvariant visual report](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/output_examples/HG00096_deepvariant.visual_report_example.html)
 
 ## **Running on GCP** <a name="GCP"></a>
+
+![WorkflowHC](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/GCP_architecture.png)
+
 1) Create a balanced persistent disk to hold the data and command line programs. For example, you could install miniconda here and use that to install other programs, or you can install them one by one. 
 This disk will need at least 600GB of storage for a single 30x subject. Scale up according to sequencing depth and number of subjects. We used debian-10-buster-v20210316 for machine type, but this can be flexible.
 This VM will need to have all dependencies installed. You will also need a directory with input fastqs, and a directory with the reference genome, as well as a resources dir with files (except the reference which needs to be in the reference directory) from the [GATK Resource Bundle](https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/)
