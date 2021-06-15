@@ -173,7 +173,7 @@ This Google [blog post](https://google.github.io/deepvariant/posts/2020-02-20-lo
 
 ### ***Download Repository and CD to base dir***
 `git clone https://github.com/kyleaoconnell22/BDS_genomics_tutorial.git`  
-`cd genomics_tutorial-main`  
+`cd BDS_genomics_tutorial `  
 For the fastest setup, all directories and files can be setup and downloaded with the helper script. Otherwise, you can go the long route and do everything step by step below. 
 
 `sh scripts/setup_tutorial.sh`
