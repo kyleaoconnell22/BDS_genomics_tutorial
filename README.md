@@ -286,6 +286,7 @@ But, in this tutorial we are going to run the commands individually so that you 
 
 #### Samtools depth + python script will give us the read depth  
 `samtools depth $RESULTS/HG00096.bam > $RESULTS/depth.out`
+
 `python scripts/find_mean.py $RESULTS/depth.out`  
 
 ### Call snps and indels with haplotype caller, this will take about 6min on a local computer, so if you are pressed for time an example output is in the output_examples dir
@@ -293,10 +294,10 @@ But, in this tutorial we are going to run the commands individually so that you 
 
 ### Filter raw SNPs with VQSR, to save time we are going to ignore indels here, but in a real analysis you would run it for snps and then indels sequentially.  
 ### First build model, here we are using a VCF of the whole genome from the output_examples, because with the toy dataset there are not enough sites to actually build the model
-### Run locally on my laptop took about ~30 min. 
+### Run locally on my laptop took about ~30 min, so for this tutorial we are going to pretend we ran it and move on! 
 `gatk VariantRecalibrator -V $EXOUT/HG00096_haplotypecaller.vcf --trust-all-polymorphic -tranche 100.0 -tranche 99.95 -tranche 99.9 -tranche 99.8 -tranche 99.6 -tranche 99.5 -tranche 99.4 -tranche 99.3 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 90.0 -an QD -an FS -an MQ -an SOR -an DP -mode SNP -resource:hapmap,known=false,training=true,truth=true,prior=15 resources/hapmap_3.3.hg38.vcf.gz -resource:omni,known=false,training=true,truth=true,prior=12 resources/1000G_omni2.5.hg38.vcf.gz -resource:1000G,known=false,training=true,truth=false,prior=10 resources/1000G_phase1.snps.high_confidence.hg38.vcf.gz -resource:dbsnp,known=true,training=false,truth=false,prior=7 resources/Homo_sapiens_assembly38.dbsnp138.vcf -O $RESULTS/snps.recal --tranches-file $RESULTS/snps.tranches`
 
-### View output files  
+### View output files, these are the example outputs from a 30x genome
 `head -100 output_examples/HG00096/snps.recal`  
 `cat output_examples/HG00096/snps.tranches`  
 
