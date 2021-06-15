@@ -1,5 +1,6 @@
 mkdir resources reference input results input/HG00096 results/HG00096 output_examples
-mv input.fastq.zip input/HG00096 | unzip input/HG00096/input.fastq.zip
+unzip input.fastq.zip
+mv *.gz input/HG00096/
 
 #Download the indexed reference genome file
 curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dict -o reference/Homo_sapiens_assembly38.dict
