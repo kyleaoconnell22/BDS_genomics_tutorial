@@ -33,45 +33,60 @@ This workflow requires a number of dependencies to be installed on your local ma
 ### *Installing conda on a Mac:* 
 The curl command is used to download the installer from the web. Note that the -O flag is a capital o not a zero.
 
-`curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh`
+```
+curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+```
 
 Install miniconda into $HOME/miniconda3  
 * Type 'yes' to agree to the license
 * Press Enter to use the default install directory
 * Type 'yes' to initialize the conda install
 
-`bash Miniconda3-latest-MacOSX-x86_64.sh`
+```
+bash Miniconda3-latest-MacOSX-x86_64.sh
+```
 
 Refresh your terminal session to see conda
 
-`bash`
+```
+bash
+```
 
 Test that conda is installed. Will print info about your conda install.
 
-`conda info`
-
+```
+conda info
+```
 
 ### *Installing conda on a Linux:*  
 Fetch the miniconda installer with wget  
-`wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+```
 
 Install miniconda into $HOME/miniconda3  
 * Type 'yes' to agree to the license
 * Press Enter to use the default install directory
 * Type 'yes' to initialize the conda install  
 
-`bash Miniconda3-latest-Linux-x86_64.sh`
+```
+bash Miniconda3-latest-Linux-x86_64.sh
+```
 
 Refresh your terminal session to see conda.  
-`bash`
+```
+bash
+```
 
 Test that conda is installed. Will print info about your conda install.  
 `conda info`
 
 ### *Creating python 3 environment if needed:*  
-`conda create --name py3 python=3.5`  
-`conda init`  
-`source activate py3`    
+```
+conda create --name py3 python=3.5
+conda init
+source activate py3
+```
    
 ## **Workflow Overview** <a name="WFO"></a>
 
@@ -86,12 +101,13 @@ The workflow is run by the script execute_mapping.py which can be run locally, o
 + **numpy**: python package needed to run a few of the scripts.  
 
    *Conda install commands*  
-   `conda install -c bioconda bwa`  
-   `conda install -c bioconda gatk4`  
-   `conda install -c bioconda samtools=1.11`  
-   `conda install -c bioconda vcftools`  
-   `conda install -c conda-forge numpy` 
-
+```
+   conda install -c bioconda bwa
+   conda install -c bioconda gatk4
+   conda install -c bioconda samtools=1.11  
+   conda install -c bioconda vcftools
+   conda install -c conda-forge numpy
+```
 
 ### *Mandatory Arguments*  
 + **path_to_data**: Absolute path to FASTQ data (input>subject>files). FASTQ data should be paired end sequence files (R1 and R2). See tutorial for example of dir structure
@@ -118,8 +134,8 @@ The workflow is run by the script execute_mapping.py which can be run locally, o
 
 ### **BWA mem**
 
-![WorkflowHC](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/Genome_alignment_workflow_HC2.png)
-![WorkflowDV](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/Genome_alignment_workflow_DV2.png)
+![WorkflowHC](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/hc_workflow.png)
+![WorkflowDV](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/dv_workflow.png)
 
 Align filtered fastq files to a reference genome. The script is designed to move through several subjects, and each subject can have multiple fastq file pairs. For example, if you have the directory 'input', it could contain subject1, subject2, and subject3, and each of these could have fastq1.R1.fastq (forward reads), fastq1.R2.fastq (reverse reads) and then fastq2.R1.fastq, fastq2.R2.fastq etc. (The reason there may be multiple fastq files for each subject (in this case person) is that deep sequencing (30-50x or more) may require more sequencing than any one machine can output. Another issues is that PCR-free libraries require several libraries to be prepared for each subject to have enough DNA to sequence deeply. Spreading the sequence across a few libraries and a few sequencing machines also distributes error (mainly levels of duplication) more widely, and should give better sequence quality overall).
 
@@ -172,39 +188,47 @@ This Google [blog post](https://google.github.io/deepvariant/posts/2020-02-20-lo
 ## **Download Files** <a name="DOW"></a>  
 
 ### ***Download Repository and CD to base dir***
-`git clone https://github.com/kyleaoconnell22/BDS_genomics_tutorial.git`  
-`cd BDS_genomics_tutorial `  
+```
+git clone https://github.com/kyleaoconnell22/BDS_genomics_tutorial.git
+cd BDS_genomics_tutorial
+```
+
 For the fastest setup, all directories and files can be setup and downloaded with the helper script. Otherwise, you can go the long route and do everything step by step below. 
 
-`sh scripts/setup_tutorial.sh`
+```
+sh scripts/setup_tutorial.sh
+```
 
 Congrats! Assuming everything went well, skip ahead to the Tutorial section below. If you had any issues then consider just running the rest of the Downloads section manually.
 
 ### ***Download Reference Genome***
 
-But first, set up directory structure if you are taking the long route  
+But first, set up directory structure if you are taking the long route. And then move the input data to the correct place.
 
-`mkdir resources reference input results input/HG00096 results/HG00096 output_examples`
 
-And then move the input data to the correct place
-
-`unzip input.fastq.zip | mv *.gz input/HG00096`
-
+```
+mkdir resources reference input results input/HG00096 results/HG00096 output_examples
+unzip input.fastq.zip
+mv *.gz input/HG00096
+```
 
 All resources we download will come from the [GATK Resource Bundle](https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0;tab=objects?prefix=&forceOnObjectsSortingFiltering=false). We are going to just download one resource today for the tutorial, but in the full pipeline we end up using all of these. 
 
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dict -output reference/Homo_sapiens_assembly38.dict`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta -output reference/Homo_sapiens_assembly38.fasta`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.alt -output reference/Homo_sapiens_assembly38.fasta.64.alt`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.amb -output reference/Homo_sapiens_assembly38.fasta.64.amb`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.ann -output reference/Homo_sapiens_assembly38.fasta.64.ann`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.bwt -output reference/Homo_sapiens_assembly38.fasta.64.bwt`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.pac -output reference/Homo_sapiens_assembly38.fasta.64.pac`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.sa -output reference/Homo_sapiens_assembly38.fasta.64.sa`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.fai -output reference/Homo_sapiens_assembly38.fasta.fai`  
+```
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dict -output reference/Homo_sapiens_assembly38.dict 
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta -output reference/Homo_sapiens_assembly38.fasta
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.alt -output reference/Homo_sapiens_assembly38.fasta.64.alt
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.amb -output reference/Homo_sapiens_assembly38.fasta.64.amb
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.ann -output reference/Homo_sapiens_assembly38.fasta.64.ann
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.bwt -output reference/Homo_sapiens_assembly38.fasta.64.bwt
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.pac -output reference/Homo_sapiens_assembly38.fasta.64.pac
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.sa -output reference/Homo_sapiens_assembly38.fasta.64.sa
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.fai -output reference/Homo_sapiens_assembly38.fasta.fai  
+```
 
 From GCP bucket:  
-`gsutil -m cp  
+```
+gsutil -m cp  
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dict"  
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta"  
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.alt"  
@@ -214,98 +238,143 @@ From GCP bucket:
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.pac"  
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.sa"  
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.fai"  
-  reference`  
+  reference
+```
 
 ### *Download Resources*
 
 From URL:  
 
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz -o resources/Homo_sapiens_assembly38.known_indels.vcf.gz`  
-`curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi -o resources/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi`  
+```
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz -o resources/Homo_sapiens_assembly38.known_indels.vcf.gz
+curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi -o resources/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
+```
 
 From GCP bucket:  
-`gsutil -m cp -r   
-  
+```
+gsutil -m cp -r   
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz"  
   "gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi"   
-
+```
 
 ## **Tutorial** <a name="TUT"></a>
 
 Make sure you download all the files and set up the directory structure first! If you have not done that then go back up one level and get everything set up. For those in a hurry, you can also just run:  
-'sh setup.sh'
+```
+sh setup.sh
+```
 
 ### *Run Commands*  
 
 You could run the whole pipeline by running the python script like this:  
-`python3 scripts/execute_mapping.py input reference/Homo_sapiens_assembly38.fasta --path_to_resources resources --variant_caller haplotypecaller --filter_vcf VQSR --threads 4`
+```
+python3 scripts/execute_mapping.py input reference/Homo_sapiens_assembly38.fasta --path_to_resources resources --variant_caller haplotypecaller --filter_vcf VQSR --threads 4
+```
 
 But, in this tutorial we are going to run the commands individually so that you can get a feel for what is happening at each step:
 
 ### Assign global variables
-`RESULTS='results/HG00096'`  
-`RESOURCES='resources'`  
-`REF='reference/Homo_sapiens_assembly38.fasta'`  
-`EXOUT='output_examples'`  
+```
+RESULTS='results/HG00096'
+RESOURCES='resources' 
+REF='reference/Homo_sapiens_assembly38.fasta'
+EXOUT='output_examples'
+```
 
 ### Map fastq files to reference genome with BWA mem to produce a SAM file with mapping info
-`bwa mem -t 2 -R '@RG\tID:HFHJKDSXX.L004\tLB:lib1\tPL:LLUMINA\tPU:HFHJKDSXX.L004.CGGACAAC_TCCGGATT\tSM:HG00096' reference/Homo_sapiens_assembly38.fasta input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R1.fastq.gz input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R2.fastq.gz > $RESULTS/out.sam`
+```
+bwa mem -t 2 -R '@RG\tID:HFHJKDSXX.L004\tLB:lib1\tPL:LLUMINA\tPU:HFHJKDSXX.L004.CGGACAAC_TCCGGATT\tSM:HG00096' reference/Homo_sapiens_assembly38.fasta input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R1.fastq.gz input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R2.fastq.gz > $RESULTS/out.sam
+```
 
 ### View the Samfile, note the chromosome order  
-`samtools view $RESULTS/out.sam | head -20`
+```
+samtools view $RESULTS/out.sam | head -20
+```
 
 ### SortSam and convert to BAM  
-`gatk SortSam -I $RESULTS/out.sam -O $RESULTS/HG00096.bam -SO coordinate`
+```
+gatk SortSam -I $RESULTS/out.sam -O $RESULTS/HG00096.bam -SO coordinate
+```
 
 ### View sorted BAM, note chromosome order now  
-`samtools view $RESULTS/HG00096.bam | head -20`
+```
+samtools view $RESULTS/HG00096.bam | head -20
+```
 
 ### Mark Duplicates  
-`gatk MarkDuplicates I=$RESULTS/HG00096.bam O=$results $RESULTS/HG00096.markdup.bam M=$RESULTS/metrics.txt`
+```
+gatk MarkDuplicates I=$RESULTS/HG00096.bam O=$results $RESULTS/HG00096.markdup.bam M=$RESULTS/metrics.txt
+```
 
 ### View output, just look at top rows to see % duplication rate split by PCR and optical duplicates, here it is very low as expected in PCR-free libraries  
-`head $RESULTS/metrics.txt`  
+```
+head $RESULTS/metrics.txt
+```
 
 ### Index the BAM, this is only needed for deepvariant  
-`gatk BuildBamIndex -I $RESULTS/HG00096.markdup.bam -O $RESULTS/HG00096.markdup.bai`  
+```
+gatk BuildBamIndex -I $RESULTS/HG00096.markdup.bam -O $RESULTS/HG00096.markdup.bai
+```
 
 ### *GATK haplotypecaller Steps*
 
 ### First calculate model for recalibrating base quality scores  
-`gatk BaseRecalibrator -I $RESULTS/HG00096.markdup.bam -O $RESULTS/bqsr_out.txt --known-sites $RESOURCES/Homo_sapiens_assembly38.known_indels.vcf.gz -R $REF`
+```
+gatk BaseRecalibrator -I $RESULTS/HG00096.markdup.bam -O $RESULTS/bqsr_out.txt --known-sites $RESOURCES/Homo_sapiens_assembly38.known_indels.vcf.gz -R $REF
+```
 
 ### Look at output of model, notice our read group info is used to sort by read group. These are the new scores for each base  
-`cat $RESULTS/bqsr_out.txt`
+```
+cat $RESULTS/bqsr_out.txt
+```
 
 ### Apply BQSR model  
-`gatk ApplyBQSR -R $REF -I $RESULTS/HG00096.markdup.bam -O $RESULTS/HG00096.bam  -bqsr-recal-file $RESULTS/bqsr_out.txt`
+```
+gatk ApplyBQSR -R $REF -I $RESULTS/HG00096.markdup.bam -O $RESULTS/HG00096.bam  -bqsr-recal-file $RESULTS/bqsr_out.txt
+```
 
 ### Lets see how well mapping went and our read depth going into variant calling  
 #### Samtools flagstat will give us the % of reads that mapped  
-`samtools flagstat $RESULTS/HG00096.bam`  
+```
+samtools flagstat $RESULTS/HG00096.bam
+```
 
 #### Samtools depth + python script will give us the read depth  
-`samtools depth $RESULTS/HG00096.bam > $RESULTS/depth.out`
+```
+samtools depth $RESULTS/HG00096.bam > $RESULTS/depth.out
+```
 
-`python scripts/find_mean.py $RESULTS/depth.out`  
+```
+python scripts/find_mean.py $RESULTS/depth.out
+```
 
 ### Call snps and indels with haplotype caller, this will take about 6min on a local computer, so if you are pressed for time an example output is in the output_examples dir
-`gatk HaplotypeCaller -I $RESULTS/HG00096.bam -O $RESULTS/HG00096_haplotypecaller.vcf -R $REF --native-pair-hmm-threads 4 --output-mode EMIT_VARIANTS_ONLY`
+```
+gatk HaplotypeCaller -I $RESULTS/HG00096.bam -O $RESULTS/HG00096_haplotypecaller.vcf -R $REF --native-pair-hmm-threads 4 --output-mode EMIT_VARIANTS_ONLY
+```
 
 ### Filter raw SNPs with VQSR, to save time we are going to ignore indels here, but in a real analysis you would run it for snps and then indels sequentially.  
 ### First build model, here we are using a VCF of the whole genome from the output_examples, because with the toy dataset there are not enough sites to actually build the model
 ### Run locally on my laptop took about ~30 min, so for this tutorial we are going to pretend we ran it and move on! 
-`gatk VariantRecalibrator -V $EXOUT/HG00096_haplotypecaller.vcf --trust-all-polymorphic -tranche 100.0 -tranche 99.95 -tranche 99.9 -tranche 99.8 -tranche 99.6 -tranche 99.5 -tranche 99.4 -tranche 99.3 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 90.0 -an QD -an FS -an MQ -an SOR -an DP -mode SNP -resource:hapmap,known=false,training=true,truth=true,prior=15 resources/hapmap_3.3.hg38.vcf.gz -resource:omni,known=false,training=true,truth=true,prior=12 resources/1000G_omni2.5.hg38.vcf.gz -resource:1000G,known=false,training=true,truth=false,prior=10 resources/1000G_phase1.snps.high_confidence.hg38.vcf.gz -resource:dbsnp,known=true,training=false,truth=false,prior=7 resources/Homo_sapiens_assembly38.dbsnp138.vcf -O $RESULTS/snps.recal --tranches-file $RESULTS/snps.tranches`
+```
+gatk VariantRecalibrator -V $EXOUT/HG00096_haplotypecaller.vcf --trust-all-polymorphic -tranche 100.0 -tranche 99.95 -tranche 99.9 -tranche 99.8 -tranche 99.6 -tranche 99.5 -tranche 99.4 -tranche 99.3 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 90.0 -an QD -an FS -an MQ -an SOR -an DP -mode SNP -resource:hapmap,known=false,training=true,truth=true,prior=15 resources/hapmap_3.3.hg38.vcf.gz -resource:omni,known=false,training=true,truth=true,prior=12 resources/1000G_omni2.5.hg38.vcf.gz -resource:1000G,known=false,training=true,truth=false,prior=10 resources/1000G_phase1.snps.high_confidence.hg38.vcf.gz -resource:dbsnp,known=true,training=false,truth=false,prior=7 resources/Homo_sapiens_assembly38.dbsnp138.vcf -O $RESULTS/snps.recal --tranches-file $RESULTS/snps.tranches
+```
 
 ### View output files, these are the example outputs from a 30x genome
-`head -100 output_examples/HG00096/snps.recal`  
-`cat output_examples/HG00096/snps.tranches`  
+```
+head -100 output_examples/HG00096/snps.recal
+cat output_examples/HG00096/snps.tranches
+``` 
 
 ### Apply model, this only takes 1.3 min on my local machine
-`gatk ApplyVQSR -R $REF -V $EXOUT/HG00096_haplotypecaller.vcf -O $RESULTS/HG00096_filt.vcf --tranches-file $RESULTS/snps.tranches --recal-file $RESULTS/snps.recal -mode SNP --exclude-filtered  -ts-filter-level 90.0`  
+```
+gatk ApplyVQSR -R $REF -V $EXOUT/HG00096_haplotypecaller.vcf -O $RESULTS/HG00096_filt.vcf --tranches-file $RESULTS/snps.tranches --recal-file $RESULTS/snps.recal -mode SNP --exclude-filtered  -ts-filter-level 90.0
+```
 
 ### See how many variants are in your toy data vcf file from haplotype caller  
-`vcftools --vcf $EXOUT/HG00096_haplotypecaller.vcf`
+```
+vcftools --vcf $EXOUT/HG00096_haplotypecaller.vcf
+```
 
 *Notice we have one individual, and in our subsampled data the model found 123 SNPs/Indels*
 
@@ -314,21 +383,25 @@ In the full dataset we would have ~5M variants, but after filtering we have 3.6-
 ### Call variants using deepvariant
 This runs three steps, the longest of which is training (23 min on my local machine), then call variants (15min) and then postprocess variants (5min)
 
-`BIN_VERSION="1.1.0"`  
-`S='HG00096'`  
-`INPUT_DIR="${PWD}/results/${S}"`  
-`REF_DIR="${PWD}/reference"`  
-`REF="Homo_sapiens_assembly38.fasta"`  
-`BAM="${S}.markdup.bam"`  
-`OUTPUT_DIR="${INPUT_DIR}"`  
-`OUTPUT_VCF="${S}_deepvariant.vcf"`  
+```
+BIN_VERSION="1.1.0"
+S='HG00096'
+INPUT_DIR="${PWD}/results/${S}"
+REF_DIR="${PWD}/reference"
+REF="Homo_sapiens_assembly38.fasta" 
+BAM="${S}.markdup.bam"
+OUTPUT_DIR="${INPUT_DIR}"
+OUTPUT_VCF="${S}_deepvariant.vcf"
+```
 
-`sudo docker run -v "${INPUT_DIR}":"/input" -v "${OUTPUT_DIR}":"/output" -v "${REF_DIR}":"/refdir" google/deepvariant:"1.1.0" /opt/deepvariant/bin/run_deepvariant --model_type=WGS --ref="/refdir/${REF}"  --reads="/input/${BAM}"  --output_vcf="/output/${OUTPUT_VCF}"  
- --num_shards=4  
-    --intermediate_results_dir /output/intermediate_results_dir`  
+```
+sudo docker run -v "${INPUT_DIR}":"/input" -v "${OUTPUT_DIR}":"/output" -v "${REF_DIR}":"/refdir" google/deepvariant:"1.1.0" /opt/deepvariant/bin/run_deepvariant --model_type=WGS --ref="/refdir/${REF}"  --reads="/input/${BAM}"  --output_vcf="/output/${OUTPUT_VCF}" --num_shards=4  --intermediate_results_dir /output/intermediate_results_dir
+```
 
 ### Check our results  
-`vcftools --vcf $EXOUT/${S}_deepvariant.vcf`
+```
+vcftools --vcf $EXOUT/${S}_deepvariant.vcf
+```
 
 Open and explore the [deepvariant visual report](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/output_examples/HG00096_deepvariant.visual_report_example.html)
 
