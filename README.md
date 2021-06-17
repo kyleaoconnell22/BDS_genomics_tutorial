@@ -374,7 +374,7 @@ cat $EXOUT/snps.tranches
 
 ### Apply model, this only takes 1.3 min on my local machine
 ```
-gatk ApplyVQSR -R $REF -V $EXOUT/HG00096_haplotypecaller.vcf -O $RESULTS/HG00096_filt.vcf --tranches-file $RESULTS/snps.tranches --recal-file $RESULTS/snps.recal -mode SNP --exclude-filtered  -ts-filter-level 90.0
+gatk ApplyVQSR -R $REF -V $EXOUT/HG00096_haplotypecaller.vcf -O $RESULTS/HG00096_filt.vcf --tranches-file $EXOUT/snps.tranches --recal-file $EXOUT/snps.recal -mode SNP --exclude-filtered  -ts-filter-level 90.0
 ```
 
 ### See how many variants are in your toy data vcf file from haplotype caller  
@@ -405,11 +405,12 @@ sudo docker run -v "${INPUT_DIR}":"/input" -v "${OUTPUT_DIR}":"/output" -v "${RE
 ```
 
 ### Check our results  
-```
-vcftools --vcf $EXOUT/${S}_deepvariant.vcf
-```
 
 Open and explore the [deepvariant visual report](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/output_examples/HG00096_deepvariant.visual_report_example.html)
+
+##Benchmarking with gold truth data using hap.py
+Open and interpret the [hap.py summary file] (https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/output_examples/happy_outputs_HG002.happy.illumina.deepvariant.output.summary.csv)
+
 
 ## **Running on GCP** <a name="GCP"></a>
 
