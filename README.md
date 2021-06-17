@@ -108,6 +108,12 @@ The workflow is run by the script execute_mapping.py which can be run locally, o
    conda install -c bioconda vcftools
    conda install -c conda-forge numpy
 ```
+   *If running on a fresh VM, make sure you also run the following*  
+
+```
+conda install -c anaconda git
+conda install -c conda-forge curl
+```
 
 ### *Mandatory Arguments*  
 + **path_to_data**: Absolute path to FASTQ data (input>subject>files). FASTQ data should be paired end sequence files (R1 and R2). See tutorial for example of dir structure
