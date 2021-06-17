@@ -289,6 +289,11 @@ REF='reference/Homo_sapiens_assembly38.fasta'
 EXOUT='output_examples'
 ```
 
+### View the read data
+```
+head input/HG00096/*R1.fastq.gz
+```
+
 ### Map fastq files to reference genome with BWA mem to produce a SAM file with mapping info
 ```
 bwa mem -t 2 -R '@RG\tID:HFHJKDSXX.L004\tLB:lib1\tPL:LLUMINA\tPU:HFHJKDSXX.L004.CGGACAAC_TCCGGATT\tSM:HG00096' reference/Homo_sapiens_assembly38.fasta input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R1.fastq.gz input/HG00096/HG00096_CGGACAAC-TCCGGATT_HFHJKDSXX_L004_001.R2.fastq.gz > $RESULTS/out.sam
