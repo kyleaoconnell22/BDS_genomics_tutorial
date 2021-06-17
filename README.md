@@ -368,8 +368,8 @@ gatk VariantRecalibrator -V $EXOUT/HG00096_haplotypecaller.vcf --trust-all-polym
 
 ### View output files, these are the example outputs from a 30x genome
 ```
-head -100 output_examples/HG00096/snps.recal
-cat output_examples/HG00096/snps.tranches
+head -100 $EXOUT/snps.recal
+cat $EXOUT/snps.tranches
 ``` 
 
 ### Apply model, this only takes 1.3 min on my local machine
