@@ -149,7 +149,7 @@ if __name__ == "__main__":
     print("deleteResultFiles option is: ", deleteResultFiles)
 
     if index_genome:
-        run_command(f' bwa.kit/bwa index {path_to_ref}', verbose=verbosity)
+        run_command(f'bwa index {path_to_ref}', verbose=verbosity)
 
     # Traverse FASTQ data and look for paired reads only
     start_time = time.time()
@@ -200,12 +200,12 @@ if __name__ == "__main__":
             PUstr=IDstr+'.'+base.split('.')[0].split('_')[1].replace('-','_') #flowcell.lane.barcode
             rg_string = f'@RG\\tID:{IDstr}\\tLB:{LBstr}\\tPL:LLUMINA\\tPU:{PUstr}\\tSM:{s}'
             print('read group string=',rg_string)
-            bwamem = ['bin/bwa-0.7.15/bwa', 'mem', '-Y', '-K', '10000000', '-t', str(threads), '-R', rg_string,
+            bwamem = ['bwa-0.7.15/bwa', 'mem', '-Y', '-K', '10000000', '-t', str(threads), '-R', rg_string,
                       path_to_ref, f1, f2]
             run_command_out_to_file(bwamem, "out.sam", verbose=verbosity)
 
             # Sort Sam File
-            run_command(f'bin/gatk-4.2.0.0/gatk SortSam -I out.sam -O {finalBAM} -SO coordinate', verbose=verbosity)
+            run_command(f'gatk-4.2.0.0/gatk SortSam -I out.sam -O {finalBAM} -SO coordinate', verbose=verbosity)
             i = i+1
 
         # Combine all BAMs for this subject 's'
@@ -223,7 +223,7 @@ if __name__ == "__main__":
         training_data2 = os.path.join(path_to_resources, 'hapmap_3.3.hg38.vcf.gz')
 
         # Mark Duplicates - use MULTIPLE INPUTS if multiple files present
-        run_command(f'bin/gatk-4.2.0.0/gatk MarkDuplicates {BAMarguments} O={dupBAM} M=metrics.txt',
+        run_command(f'gatk-4.2.0.0/gatk MarkDuplicates {BAMarguments} O={dupBAM} M=metrics.txt',
                     verbose=verbosity)
 
         if var_caller == 'haplotypecaller':
@@ -234,10 +234,10 @@ if __name__ == "__main__":
 
             # Rescale bam file
             run_command(
-                f'bin/gatk-4.2.0.0/gatk ApplyBQSR -R {path_to_ref} -I {dupBAM} -O {combinedBAM} -bqsr-recal-file bqsr_out.txt',verbose=verbosity)
+                f'gatk-4.2.0.0/gatk ApplyBQSR -R {path_to_ref} -I {dupBAM} -O {combinedBAM} -bqsr-recal-file bqsr_out.txt',verbose=verbosity)
 
             # Run haplotype caller
-            run_command_out_to_file(f'bin/gatk-4.2.0.0/gatk HaplotypeCaller -I {combinedBAM} -O {combinedVCF} -R {path_to_ref} --native-pair-hmm-threads {str(threads)} --output-mode EMIT_VARIANTS_ONLY','out.vcf',verbose=verbosity)
+            run_command_out_to_file(f'gatk-4.2.0.0/gatk HaplotypeCaller -I {combinedBAM} -O {combinedVCF} -R {path_to_ref} --native-pair-hmm-threads {str(threads)} --output-mode EMIT_VARIANTS_ONLY','out.vcf',verbose=verbosity)
 
             # See how many reads were successfully mapped
             run_command(f'samtools flagstat {combinedBAM}', verbose=verbosity)
@@ -252,16 +252,16 @@ if __name__ == "__main__":
             s
             if filter == 'VQSR':
                 # Run VQSR SNPs
-                run_command(f'bin/gatk-4.2.0.0/gatk VariantRecalibrator -V {combinedVCF} --trust-all-polymorphic -tranche 100.0 -tranche 99.95 -tranche 99.9 -tranche 99.8 -tranche 99.6 -tranche 99.5 -tranche 99.4 -tranche 99.3 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 90.0 -an QD -an FS -an MQ -an SOR -an DP -mode SNP -resource:hapmap,known=false,training=true,truth=true,prior=15 resources/hapmap_3.3.hg38.vcf.gz -resource:omni,known=false,training=true,truth=true,prior=12 resources/1000G_omni2.5.hg38.vcf.gz -resource:1000G,known=false,training=true,truth=false,prior=10 resources/1000G_phase1.snps.high_confidence.hg38.vcf.gz -resource:dbsnp,known=true,training=false,truth=false,prior=7 resources/Homo_sapiens_assembly38.dbsnp138.vcf -O snps.recal --tranches-file snps.tranches',verbose=verbosity)
+                run_command(f'gatk-4.2.0.0/gatk VariantRecalibrator -V {combinedVCF} --trust-all-polymorphic -tranche 100.0 -tranche 99.95 -tranche 99.9 -tranche 99.8 -tranche 99.6 -tranche 99.5 -tranche 99.4 -tranche 99.3 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 90.0 -an QD -an FS -an MQ -an SOR -an DP -mode SNP -resource:hapmap,known=false,training=true,truth=true,prior=15 resources/hapmap_3.3.hg38.vcf.gz -resource:omni,known=false,training=true,truth=true,prior=12 resources/1000G_omni2.5.hg38.vcf.gz -resource:1000G,known=false,training=true,truth=false,prior=10 resources/1000G_phase1.snps.high_confidence.hg38.vcf.gz -resource:dbsnp,known=true,training=false,truth=false,prior=7 resources/Homo_sapiens_assembly38.dbsnp138.vcf -O snps.recal --tranches-file snps.tranches',verbose=verbosity)
 
                 # Run VQSR indels
-                run_command(f'bin/gatk-4.2.0.0/gatk VariantRecalibrator -V {combinedVCF} -tranche 100.0 -tranche 99.95 -tranche 99.9 -tranche 99.5 -tranche 99.0 -tranche 97.0 -tranche 96.0 -tranche 95.0 -tranche 94.0 -tranche 93.5 -tranche 93.0 -tranche 92.0 -tranche 91.0 -tranche 90.0 -mode INDEL -resource:mills,known=false,training=true,truth=true,prior=12 resources/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz -O indels.recal --tranches-file indels.tranches -an FS -an ReadPosRankSum -an MQRankSum -an QD -an SOR -an DP',verbose=verbosity)
+                run_command(f'gatk-4.2.0.0/gatk VariantRecalibrator -V {combinedVCF} -tranche 100.0 -tranche 99.95 -tranche 99.9 -tranche 99.5 -tranche 99.0 -tranche 97.0 -tranche 96.0 -tranche 95.0 -tranche 94.0 -tranche 93.5 -tranche 93.0 -tranche 92.0 -tranche 91.0 -tranche 90.0 -mode INDEL -resource:mills,known=false,training=true,truth=true,prior=12 resources/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz -O indels.recal --tranches-file indels.tranches -an FS -an ReadPosRankSum -an MQRankSum -an QD -an SOR -an DP',verbose=verbosity)
 
                 # Apply VQSR
-                run_command(f'bin/gatk-4.2.0.0/gatk ApplyVQSR -R {path_to_ref} -V {combinedVCF} -O {filtVCF} --tranches-file snps.tranches --recal-file snps.recal -mode SNP', verbose=verbosity)
+                run_command(f'gatk-4.2.0.0/gatk ApplyVQSR -R {path_to_ref} -V {combinedVCF} -O {filtVCF} --tranches-file snps.tranches --recal-file snps.recal -mode SNP', verbose=verbosity)
 
                 #print ('Number of SNPs in final vcf file after VQSR:  ')
-                run_command(f'bin/vcftools --vcf {combinedVCF}', verbose=verbosity)
+                run_command(f'vcftools --vcf {combinedVCF}', verbose=verbosity)
 
             elif filter == 'NONE':
                 pass
@@ -276,14 +276,14 @@ if __name__ == "__main__":
         elif var_caller == 'deepvariant':
             # Index BAM file
             print ('Indexing BAM')
-            run_command(f'bin/gatk-4.2.0.0/gatk BuildBamIndex -I {dupBAM} -O {indexBAM}',verbose=verbosity)
+            run_command(f'gatk-4.2.0.0/gatk BuildBamIndex -I {dupBAM} -O {indexBAM}',verbose=verbosity)
 
             # Run Deepvariant
             print ('Running Deepvariant')
             run_command('sh run-deepvariant.sh', verbose=verbosity)
 
             #print ('Number of SNPs in final vcf file after DeepVariant:  ')
-            run_command(f'bin/vcftools --vcf {combinedVCF}', verbose=verbosity)
+            run_command(f'vcftools --vcf {combinedVCF}', verbose=verbosity)
 
             #Summarize BAM file
             # See how many reads were successfully mapped
