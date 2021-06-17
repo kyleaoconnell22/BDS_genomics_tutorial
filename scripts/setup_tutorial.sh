@@ -1,10 +1,3 @@
-conda install -c bioconda bwa
-conda install -c bioconda gatk4
-conda install -c bioconda samtools=1.11  
-conda install -c bioconda vcftools
-conda install -c conda-forge numpy
-
-
 mkdir resources reference input results input/HG00096 results/HG00096 output_examples
 unzip input.fastq.zip
 mv *.gz input/HG00096/
@@ -24,3 +17,8 @@ curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0
 curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz -o resources/Homo_sapiens_assembly38.known_indels.vcf.gz
 curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi -o resources/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
 
+conda install -c bioconda bwa
+conda install -c bioconda gatk4
+conda install -c bioconda samtools=1.11  
+conda install -c bioconda vcftools
+conda install -c conda-forge numpy
