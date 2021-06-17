@@ -265,9 +265,9 @@ gsutil -m cp -r
 
 ## **Tutorial** <a name="TUT"></a>
 
-Make sure you download all the files and set up the directory structure first! If you have not done that then go back up one level and get everything set up. For those in a hurry, you can also just run:  
+Make sure you download all the files and set up the directory structure first! You also need all dependencies in your path; see the conda commands in the workflow overview section above. If you have not done that then go back up one level and get everything set up. For those in a hurry, you can download files (but not dependencies) by running:  
 ```
-sh setup.sh
+sh scripts/setup.sh
 ```
 
 ### *Run Commands*  
