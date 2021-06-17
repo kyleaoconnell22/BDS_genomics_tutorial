@@ -199,7 +199,7 @@ git clone https://github.com/kyleaoconnell22/BDS_genomics_tutorial.git
 cd BDS_genomics_tutorial
 ```
 
-For the fastest setup, all directories and files can be setup and downloaded with the helper script. Otherwise, you can go the long route and do everything step by step below. 
+For the fastest setup, all directories and files can be setup and downloaded with the helper script. It takes just over 5 minutes on my Macbook. Otherwise, you can go the long route and do everything step by step below. 
 
 ```
 sh scripts/setup_tutorial.sh
