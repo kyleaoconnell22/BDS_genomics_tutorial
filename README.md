@@ -269,7 +269,7 @@ Make sure you download all the files and set up the directory structure first! Y
 ```
 git clone https://github.com/kyleaoconnell22/BDS_genomics_tutorial.git
 cd BDS_genomics_tutorial
-sh scripts/setup.sh
+sh scripts/setup_tutorial.sh
 ```
 
 ### *Run Commands*  
