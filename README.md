@@ -218,7 +218,7 @@ unzip input.fastq.zip
 mv *.gz input/HG00096
 ```
 
-All resources we download will come from the [GATK Resource Bundle](https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0;tab=objects?prefix=&forceOnObjectsSortingFiltering=false). We are going to just download one resource today for the tutorial, but in the full pipeline we end up using all of these. 
+All resources we download will come from the [GATK Resource Bundle](https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0;tab=objects?prefix=&forceOnObjectsSortingFiltering=false). We are going to just download one resource today for the tutorial, but in the full pipeline we end up using all of the files in the GATK bucket. 
 
 ```
 curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dict -output reference/Homo_sapiens_assembly38.dict 
