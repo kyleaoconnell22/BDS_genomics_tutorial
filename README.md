@@ -132,10 +132,10 @@ The workflow is run by the script execute_mapping.py which can be run locally, o
 
 ## **Workflow Steps** <a name="WFS"></a>
 
-### **BWA mem**
-
 ![WorkflowHC](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/hc_workflow.png)
 ![WorkflowDV](https://github.com/kyleaoconnell22/BDS_genomics_tutorial/blob/main/workflow_figures/dv_workflow.png)
+
+### **BWA mem**
 
 Align filtered fastq files to a reference genome. The script is designed to move through several subjects, and each subject can have multiple fastq file pairs. For example, if you have the directory 'input', it could contain subject1, subject2, and subject3, and each of these could have fastq1.R1.fastq (forward reads), fastq1.R2.fastq (reverse reads) and then fastq2.R1.fastq, fastq2.R2.fastq etc. (The reason there may be multiple fastq files for each subject (in this case person) is that deep sequencing (30-50x or more) may require more sequencing than any one machine can output. Another issues is that PCR-free libraries require several libraries to be prepared for each subject to have enough DNA to sequence deeply. Spreading the sequence across a few libraries and a few sequencing machines also distributes error (mainly levels of duplication) more widely, and should give better sequence quality overall).
 
