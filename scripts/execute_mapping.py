@@ -200,7 +200,7 @@ if __name__ == "__main__":
             PUstr=IDstr+'.'+base.split('.')[0].split('_')[1].replace('-','_') #flowcell.lane.barcode
             rg_string = f'@RG\\tID:{IDstr}\\tLB:{LBstr}\\tPL:LLUMINA\\tPU:{PUstr}\\tSM:{s}'
             print('read group string=',rg_string)
-            bwamem = ['bwa-0.7.15/bwa', 'mem', '-Y', '-K', '10000000', '-t', str(threads), '-R', rg_string,
+            bwamem = ['bwa', 'mem', '-Y', '-K', '10000000', '-t', str(threads), '-R', rg_string,
                       path_to_ref, f1, f2]
             run_command_out_to_file(bwamem, "out.sam", verbose=verbosity)
 
