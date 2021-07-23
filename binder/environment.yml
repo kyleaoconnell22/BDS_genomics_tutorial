@@ -11,5 +11,5 @@ dependencies:
   - bwa ==0.7.17
   - samtools ==1.9
   - picard ==2.20.1
-  - r-base=3.6
-  - r-tidyverse
+  - gatk4 ==4.1.4.1
+  - snakemake-wrapper-utils ==0.1.3
