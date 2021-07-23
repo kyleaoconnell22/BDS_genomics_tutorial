@@ -91,7 +91,7 @@ source activate py3
    
 ## **Workflow Overview** <a name="WFO"></a>
 
-The workflow is run by the script execute_mapping.py which can be run locally, or via sh startup script on GCP.
+The workflow is run by the script execute_mapping.py which can be run locally, via sh startup script on GCP, or if you can't do that, run it on BinderHub! See more in the Tutorial section.
 
 ### *Pipeline Dependencies*
 + **bwa**:  [bwa](http://bio-bwa.sourceforge.net/) is used for genome alignment. 
@@ -266,7 +266,13 @@ gsutil -m cp -r
 
 ## **Tutorial** <a name="TUT"></a>
 
-Make sure you download all the files and set up the directory structure first! You also need all dependencies in your path; see the conda commands in the workflow overview section above. If you have not done that then go back up one level and get everything set up. For those in a hurry, you can download files (but not dependencies) by running:  
+The best way to run the tutorial if you are starting out is to use the BinderHub. Just click here and let the environment load: [![Binder](https://binder.pangeo.io/badge_logo.svg)](https://binder.pangeo.io/v2/gh/kyleaoconnell22/BDS_genomics_tutorial/main)
+
+Now run open the terminal and run `sh scripts/setup_tutorial.sh`
+
+You are now ready to implement the rest of the commands below. 
+
+If you want to run it locally, follow these instructions. 
 ```
 git clone https://github.com/kyleaoconnell22/BDS_genomics_tutorial.git
 cd BDS_genomics_tutorial
