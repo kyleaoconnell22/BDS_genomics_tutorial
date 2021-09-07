@@ -1,5 +1,1 @@
-trimmomatic ==0.36
-bwa ==0.7.17
-samtools ==1.9
-picard ==2.20.1
-gatk4 ==4.1.4.1
+
